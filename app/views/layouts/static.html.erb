@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+	<head>
+		<title>fyreCloud Solutions : <%= yield :breadcrumbs %></title>
+		<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+		<link media="screen" type="text/css" rel="stylesheet" href="/assets/css/html5-reset-1.4.css" />
+		<link media="screen" type="text/css" rel="stylesheet" href="/assets/css/fyrecloud.css" />
+
+		<meta name="description" content="<%= yield :meta_description %>"/>
+		<meta name="keywords" content="<%= yield :meta_keywords %>" />
+
+	</head>
+
+	<body>
+
+		<div id="wrap">
+
+			<div id="header">
+				<img class="floatleft" src="/assets/images/fyrecloud_logo_144x111.png" alt="fyreCloud Solutions Logo" style="border: 1px solid #b06e3a; margin-right: 10px;"/>
+
+					<div>
+
+						<img src="/assets/images/fyrecloud_text_logo_328x72.png" alt="fyreCloud Solutions Text Logo"/>
+
+						<%= render "layouts/random_quotes" %>
+
+				</div>
+				<div style="clear: both; height: 1px;"></div>
+			</div> <!-- header -->
+
+			<div id="avmenu">
+
+				<%= render "layouts/left_nav_menu" %>
+
+				<div class="announce">
+					<%= render :partial => "layouts/testimonials", :locals => {:display => true} %>
+				</div> <!-- announce -->
+
+			</div> <!-- avmenu -->
+
+			<div id="content">
+				<%= yield %>
+			</div> <!-- content -->
+
+			<div style="clear: both; height: 1px;"></div>
+
+			<div id="footer">
+				Hosted by: <a href="http://manage.crucialp.com/aff.php?aff=022"><img src="/assets/images/crucialp_logo.gif" alt="Crucial Paradigm Web Solutions Logo" height="40" border="0" width="160" /></a>
+				Powered by: <a href="http://rubyonrails.org"><img src="/assets/images/rails_logo.png" alt="Ruby on Rails Logo" height="40" border="0" width="30" /></a>
+			</div> <!-- footer -->
+
+		</div> <!-- wrap -->
+
+	</body>
+
+</html>

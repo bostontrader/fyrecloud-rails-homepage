@@ -1,0 +1,286 @@
+<h2>Introduction to the Amsler Project</h2>
+
+<p style="margin-bottom:1em">A common requirement for Android applications is to retrieve information from a remote server.    Although implementing simple examples of this are easy enough, more realistic usage is much more difficult.  The basic problem is that any application that communicates with a server must either have bullet-proof communication in order to operate, or it must be able to gracefully adapt to network weather. It is not sufficient to merely scold “don’t expect to use this app in the absence of a network connection.”  You know as well as we do that neither your sales force nor your customers will tolerate that simple approach.  They will say “just cache all the server info on the device and <b><i>problem solved!”</i></b>  Yes, as easy as that.  Oh well…</p>
+
+<p style="margin-bottom:1em">Our purpose in writing this article is to describe a solution to this problem.  Our solution is to perform replication between a MySQL server and an Android device.  There ya have it.  <b><i>Problem solved!”</i></b></p>
+
+<p style="margin-bottom:1em">Doing this is of course easier said than done.  Initially we envisioned a more “shrink-wrapped” kind of solution.  However, as we waded into this swamp we discovered that providing the source code for a single working example would be much more realistic.  There are plenty of nuances and variations that you will find in your particular application that we did not encounter.  Instead of a bullet-proof app that can deal with any variation of reality that it encounters, we humbly offer source code that works for a limited subset of, and is a decent starting point for further customization.
+
+<div style="border:0.2em solid #cccccc;padding: 1em; margin-bottom: 1em; background: #f8f8f8">
+	<p><a href=#getting_started              >Getting Started</a></p>
+	<p><a href=#digging_deeper               >Digging Deeper</a></p>
+	<p><a href=#mysql_replication            >MySQL Replication</a></p>
+	<p><a href=#mysql_client_server_protocol >MySQL Client/Server Protocol</a></p>
+	<p><a href=#sql_parsing_antlr            >SQL Parsing and Translation with ANTLR</a></p>
+	<p><a href=#bdd_testing_robotium         >Behavior Driven Development and Testing with Robotium</a></p>
+</div>
+
+<a name="getting_started"></a>
+<h2 style="margin-bottom:1em">Getting Started</h2>
+
+<div style="float:left; margin-bottom:3em;">
+<img align="right" style="margin-left:1em;" src="assets/images/Android-2012-02-15-110824.png" alt="Amsler Control Panel" height="360" width="240">
+
+<p style="margin-bottom:1em">The first step is to <a title="Download Amsler 1.0" href="assets/images/Amsler.apk"> download <strong>Amsler </strong>1.0</a>.  It's an .apk file for your Android phone or emulator.</p>
+
+<p style="margin-bottom:1em">The <strong>Amsler </strong> application is merely a demonstration of replication from our demonstration MySQL server to your Android device.  When you run the application, you will be presented with a control panel that lets you visualize and execute various useful functions for doing this.</p>
+
+<p style="margin-bottom:1em">You may notice that some of the buttons are disabled at certain points in time.  We're sure you can guess that there is a logical sequence of operations for using <strong>Amsler </strong> and that the buttons are disabled because their usage is not relevant at that time.  You should use the application in the order described next.  If you do this, then the buttons you need to use will be enabled when you need them.</p>
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="left" style="margin-right:1em;" src="assets/images/Android-2012-02-15-122300.png" alt="Amsler Preferences" height="360" width="240">
+<h3 style="margin-bottom:1em">Preferences</h3>
+<p style="margin-bottom:1em">The first two choices concern preferences.  The defaults are sufficient to use the demonstration and it's not necessary to change anything.  If you are unable to resist the urge to tamper with these settings, thereby destroying the functionality of this application, you may always reset them to their initial defaults.</p>
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="right" style="margin-left:1em;" src="assets/images/Android-2012-02-15-110927.png" alt="Amsler Preferences" height="360" width="240">
+<p style="margin-bottom:1em">The preferences enable you to configure the things you would expect such as the location of the MySQL server, its port, and the various replication parameters.</p>
+
+<p style="margin-bottom:1em">Please note that for purposes of brevity only a subset of the preferences are actually shown in the picture.</p>
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+
+<img align="left" style="margin-right:1em;" src="assets/images/Android-2012-02-15-123900.png" alt="Brainwipe Amsler" height="360" width="240">
+<h3 style="margin-bottom:1em">Brainwipe device SQLite database</h3>
+<p style="margin-bottom:1em">This will erase the SQLite db on your device and initialize it for subsequent use.  Note: This will not harm any other SQLite dbs you may have.  Nevertheless, be sure to be careful if you're experimenting with a new program on a device that contains valuable information.</p>
+
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="right" style="margin-left:1em;" src="assets/images/Android-2012-02-15-124500.png" alt="Download beginning snapshot" height="360" width="240">
+
+<h3 style="margin-bottom:1em">Download beginning snapshot</h3>
+
+<p style="margin-bottom:1em">In this step you will download the beginning state of the MySQL db into your device SQLite db.  
+This choice is only available if the device SQLite db has been initialized/brainwiped but synchronization has not yet started.</p>
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+<img align="left" style="margin-right:1em;" src="assets/images/Android-2012-02-15-111124.png" alt="Snapshot log" height="360" width="240">
+
+<p style="margin-bottom:1em">When you execute this choice you will be presented with a log showing the commands that come in from the MySQL server (brown) and the translated SQLite commands (green) that are executed against your device db.  There are substantial differences between the two syntaxes and this log will help get you acquainted with them.</p>
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="right" style="margin-left:1em;" src="assets/images/Android-2012-02-15-125300.png" alt="Start synchronization" height="360" width="240">
+
+<h3 style="margin-bottom:1em">Start synchronization</h3>
+
+<p style="margin-bottom:1em">In this step you will start the synchronization process.  In the prior step, you downloaded the beginning state of the db.  Synchronization will apply updates to that beginning state until the device SQLite db is fully current with the state of the MySQL server.  This choice is only available if the snapshot has already been downloaded.</p>
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="left" style="margin-right:1em;" src="assets/images/Android-2012-02-18-101400.png" alt="Amsler Synchronization Log" height="360" width="240">
+
+<p style="margin-bottom:1em">As with downloading the snapshot, when you execute this choice you will be presented with a log showing the replication events that come in from the MySQL server and the translated SQLite commands that are executed against your device SQLite db.</p>
+
+<p style="margin-bottom:1em">In this picture we can see that the last two replicated records were for ''snicker” and “kitty”...</p>
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="right" style="margin-left:1em;" src="assets/images/Android-2012-02-18-101500.png" alt="Amsler Synchronization Log" height="360" width="240">
+
+<p style="margin-bottom:1em">... and after the next transaction “kitty” has moved up in the log with “mittens” being the newest addition to the family.</p>
+
+<p style="margin-bottom:1em">Once the device SQLite db is fully synchronized with the MySQL server, any updates to the server will be quickly propagated to the device.  In fact, you may go to our <a href="assets/images/newrecord.php">demonstration page at <b>assets/images/newrecord.php</b> </a> to see this in action.  Whenever you view or refresh that page, a new record is created in the MySQL db.  If you have the synchronization log open, you will be able to see a new entry appear shortly after creating a new MySQL record.</p>
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="left" style="margin-right:1em;" src="assets/images/Android-2012-02-18-105000.png" alt="Amsler SQLite Explorer" height="360" width="240">
+
+
+<h3 style="margin-bottom:1em">SQLite Explorer</h3>
+
+<p style="margin-bottom:1em">This is a very primitive tool to enable you to look and see what is actually happening to the local SQLite db.</p>
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="right" style="margin-left:1em;" src="assets/images/Android-2012-02-15-111454.png" alt="Amsler SQLite Explorer" height="360" width="240">
+
+<p style="margin-bottom:1em">For example, after you import the initial snapshot you should be able to verify that there is a new table named “kitties”.</p>
+
+</div>
+
+<div style="float:left; margin-bottom:3em;">
+
+<img align="left" style="margin-right:1em;" src="assets/images/Android-2012-02-15-111522.png" alt="Amsler SQLite Explorer" height="360" width="240">
+
+<p style="margin-bottom:1em">Clicking on the the table will show you a list of records from that table.  Use this to verify that new tables and records are indeed being created as expected.</p>
+
+
+<p style="margin-bottom:1em">Please realize that this image is different from what you'll see because there are now more records in the database.  If you scroll back you can find these records.</p>
+
+</div>
+
+<div style="clear: both; height: 1px"></div>
+
+<div style="border:0.2em solid #cccccc;padding: 1em; background: #f8f8f8; margin-bottom: 2em">
+
+	<div>
+		<h2 style="margin-bottom:1em">Support the Cause</h2>
+		<p style="margin-bottom:1em">Whether you find this useful, interesting, entertaining, or are merely feeling generous today, please consider making a donation.</p>
+
+		<div class="floatright">
+			<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+				<input type="image" src="assets/images/donate.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">	<input type="hidden" name="cmd" value="_s-xclick">
+				<input type="hidden" name="hosted_button_id" value="E4V9L6496RCZE">
+				<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+			</form>
+		</div>
+
+	</div>
+	<div style="clear: both; height: 1px"></div>
+	<div>
+		<img class="floatleft" src="assets/images/bitcoin.png" alt="Bitcoin" height="110" width="110">
+		We also accept Bitcoins at <strong>1FuBFCNap5v5xycqNzX8KbgtvX1jHwCP5J</strong>
+		<div style="clear: both; height: 1px"></div>
+	</div>
+
+</div>
+
+<a name="digging_deeper"></a>
+<h2 style="margin-bottom:1em">Digging Deeper with Amsler / MySQL / SQLite Replication</h2>
+
+<p>The demonstration client that you're using now is merely a humble demonstration that this system works at all.  Putting this to real use for your own project is somewhat more involved.  The implementation of this solution can be broken down into the following parts:</p>
+
+<h3><a href="#mysql_replication">MySQL Replication</a></h3>
+
+<p>The first step is to install and configure your MySQL server for replication.  The server will be a replication "master" and the Android devices will be replication "slaves."  This is the easy part.</p>
+
+<h3><a href="#sql_parsing_antlr">SQL Parsing and Translation with ANTLR</a></h3>
+
+<p>MySQL replication works by communicating a sequence of SQL statements that do whatever needs doing in order to modify the slave db.  These commands will create and delete tables, insert, drop, and modify columns, insert rows into tables, make war, levy peace, etc.</p>
+
+<p> This presents a fair challenge for a number of reasons. The incoming SQL must be parsed and translated to SQLite syntax.  This is a problem of lexing, parsing, and code generation and is not something you can do with Regex (provably so.)  After examining our options we chose  <a href="http://www.ANTLR.org/">ANTLR</a> for the job.  Although quite powerful, ANTLR didn't get us to Easy Street immediately.  We had to develop a "grammar" for ANTLR that parses the incoming MySQL and transforms it to the target SQLite. The official grammar for each variety of SQL is very large and complicated.  In addition, the different versions of each product have differences that further cloud the issue.  Finally, translation is not as straightforward as you might think.  MySQL has a myriad of options that are not present in SQLite. Other wrinkles too tedious to describe also apply. Fortunately we did not have to tackle this entire grammar problem.  As a practical matter our development environment is only using MySQL 5.0.77 and the version of SQLite that comes with Android API 4 aka 1.6.  In addition, the SQL that is communicated via replication is a small subset of the entire grammar.<p>
+
+<h3>Asynchronous TCP/IP with Netty</h3>
+
+<p>An Amsler application will open, and keep alive, a TCP/IP connection to the server.  The purpose of this is to receive backlogged replication events from the server as well as new replication updates as they occur.   Doing simple things with TCP/IP is easy enough.  However, we need to keep alive a connection and react asynchronously when and if new replication events occur.  Getting this right is far more complicated, but we were fortunate enough to find the <a href="http://docs.jboss.org/netty/3.2/api/overview-summary.html">Netty</a> library for this.</p>
+
+<h3><a href="#mysql_client_server_protocol">Cracking the Code</a></h3>
+
+<p>MySQL has a <a href="http://forge.mysql.com/wiki/MySQL_Internals_ClientServer_Protocol">client/server protocol</a> that is reasonably well documented.  In addition <a href="http://www.wireshark.org/">WireShark</a> can recognize packets as MySQL packets.  The Android device will use this protocol to communicate with the MySQL server.  We had to implement this protocol ourselves.</p>
+
+<h3><a href="#bdd_testing_robotium">Behavior Driven Development and Testing with Robotium</a></h3>
+
+<p>Much of the application was developed using <a href="http://dannorth.net/introducing-bdd/">Behavior Driven Development (BDD)</a> and <a href="http://code.google.com/p/robotium/">Robotium</a>.  Android provides a testing foundation, but it's somewhat opaque to say the least.  Robotium adds higher-level operations to the Android testing framework.  With Robotium you really can do BDD with Android.  Nevertheless, Robotium presents a few challenges of its own.
+</p>
+
+
+<a name="mysql_replication"></a>
+<h2 style="margin-bottom:1em">MySQL Replication</h2>
+<p>When all else fails, <a href="http://dev.mysql.com/doc/refman/5.0/en/replication-howto.html">RTFM</a>.  Distilling that to its bare essentials we find that the basic outline of MySQL replication is as follows:</p>
+
+<h3>Initialization</h3>
+
+<ul style="margin-left: 2em">
+<li><p>There is a "master" server and any number of replication "slave" servers or devices that wish to remain in sync with the master.</p></li>
+
+<li><p>The master server is configured to log all changes to the database. The log is called the "binary log" but all changes to the database are represented as ordinary SQL statements.</p></li>
+
+<li><p>The DBA will then create a "snapshot" of the data on the master at some particular instant in time. A snapshot is merely a collection of SQL statements that, when executed, will create the appropriate tables and indexes and insert any data into the tables.</p></li>
+
+<li><p>At the time of creation of the snapshot, the replication log "coordinates" should also be recorded. The coordinates point to the location in the log that corresponds to the snapshot.</p></li>
+
+<li><p>Next, copy the snapshot of the data to any replication "slaves" such as a mobile device. Use this snapshot to initialize the database on the device. This is a one-time (or occasional) task and may take considerable time, depending upon the size of the snapshot.</p></li>
+
+<li><p>Configure the device with the coordinates within the log that correspond to the time of the snapshot. The device now knows that the database on the device is exactly what was on the server, at some particular point in the log.</p></li>
+
+<li><p>Finally, activate replication on the device. The device will then ask the server for all new updates. The updates will start from the configured coordinates and proceed until the end of the log.</p></li>
+
+</ul>
+
+<h3>Subsequent Routine Operation</h3>
+
+<ul style="margin-left: 2em">
+<li><p>Whenever the device re-establishes communication with the server, it will request and process any new updates. </p></li>
+
+<li><p>During the time the device remains in communication with the server, the server will push updates to the device very quickly. No need for the device to even bother to ask for them.</p></li>
+</ul>
+
+<a name="mysql_client_server_protocol"></a>
+<h2 style="margin-bottom:1em">MySQL Client/Server Protocol</h2>
+<p>In order for <b>Amsler</b> to do its job, it has to communicate with a remote MySQL server.  The way to do that is to figure out and implement a sufficient fraction of the <a href="http://forge.mysql.com/wiki/MySQL_Internals">Client/Server Protocol</a> page.  Alas, although an excellent starting point, this site is somewhat obsolete and incomplete.  Here we fill in some of the blanks.</p>
+
+<h3>The Handshake</h3>
+<p>The first step in communicating with the server is to connect and get acquainted.  The client will request a connection and the server will send back a <b>welcome packet.</b>  The welcome packet contains two fields of "salts" aka "scramble buffers."  The client will do some SHA1 gyrations with these and send the result to the server in a <b>login request packet</b>.  If all is well the server should reply with an <b>OK packet</b> saying that everything's cool.  Unfortunately, we were not initially cool enough and our login attempts would only yield authentication errors.</p>
+
+<p>When we cranked up Wireshark to see what the MySQL utility was actually doing, we could see two mysterious and undocumented packets in the handshake.  The first mystery packet had a packet_length = 1 with a single 0xfe as the message.  I will refer to this as the "short" packet.  The short packet appeared in the same place with the same format with every test.  The 2nd mystery packet had a packet length of 9 filled with a one byte command, 7 random looking bytes and a zero at the end.  I will refer to this one as the "scrambled" packet.  The scrambled packet always succeeded the short packet, but the command and the additional 7 bytes were always seemingly randomly different.  At one point we attempted to simply copy one instance of the random packet, and we'll let you guess how well that worked out.</p>
+
+<p>To make matters somewhat more confusing, Wireshark's MySQL decoder ring is not very complete and is confused by these packet types.  For the scramble packet, Wireshark was routinely reporting a "command" value in the 0x60's - 0x90's.  The Internals document doesn't have any material on these command types and upon closer reflection we conclude that it was Wireshark's error in calling them "commands" in the first place.  This was because Wireshark was not correctly interpreting the type of packet.</p>
+
+<p>After being stumped for far too long and exhausting all other avenues, we finally bit the bullet and decided to download and compile the MySQL source code.  If MySQL can do it, so can we.  So, after doing all that and spelunking around in the source code for a while, we finally found it!  Apparently, under certain circumstances that we presently do not fully understand, the server will demand a 2nd scrambled password in order to authenticate.  The first short packet from the server is its method of telling us that and the 2nd scrambled packet is what we should send back.</p>
+
+<p>The 2nd scrambled packet is using an ancient home-grown hashing method that apparently hails from the days of MySQL 3.23.  The method inside the MySQL source code that implements this function is named scramble_323 and in honor of that we've renamed "scramble" packet to "scramble_323" packet.</p>
+
+<p>The following sequence diagram will illustrate the handshake.  Please notice that the short packet and the scramble_323 packets are optional, depending upon whether or not the server demands them.</p><img src="assets/images/mysql_client_server_handshake.png">
+
+<h3>Why This Happens</h3>
+<p>The source code in pseudo code says:</p>
+<pre>
+send login packet
+receive result
+if (condition) {
+  /*By sending this very specific reply server asks us to send scrambled password in old format */
+  build and send the random packet
+}
+</pre>
+<p>The key to triggering this is the actual code for the condition:</p>
+<pre>
+pkt_length == 1 && net->read[0] == 254 && mysql->server_capabilities && CLIENT_SECURE_CONNECTION
+</pre>
+<p>As you can see, this condition is detecting the short packet and it's also detecting that the CLIENT_SECURE_CONNECTION bit of the server capabilities is on.</p>
+<h3>The Solution</h3>
+<p>Now that we know what's causing this problem, our next mission is to solve it.  Our two basic choices are to turn off the CLIENT_SECURE_CONNECTION capability or to implement the recognition and emission of these two new packets.  However, somewhere in the wild is somebody who wants to use these features.  Therefore we decided on choice the latter, recognize and emit the new packet types.</p>
+
+<a name="sql_parsing_antlr"></a>
+<h2 style="margin-bottom:1em">SQL Parsing and Translation with ANTLR</h2>
+<p>MySQL replication works by communicating a sequence of SQL statements that do whatever needs doing in order to modify the slave db.  These commands will create and delete tables, insert, drop, and modify columns, insert rows into tables, etc.  This presents quite a headache for a number of reasons.</p>
+
+<p>The incoming SQL must be parsed and translated to SQLite syntax.  This is much more difficult than it may appear upon first glance.  This is a problem of lexing, parsing, and code generation and is not something you can do with Regex (provably so.)  After examining our options we chose <a href="http://www.antlr.org/">ANTLR</a> for the job.  Although quite powerful, ANTLR didn't get us to Easy Street immediately.  We had to develop a "grammar" that parses the incoming MySQL and transforms it to the target SQLite.</p>
+
+<p>The official grammar for each variety of SQL is very large and complicated.  In addition, the different versions of each product have differences that further cloud the issue.  Finally, translation is not as straight forward as you might think. MySQL has a myriad of options that are not present in SQLite. Other wrinkles too tedious to describe also apply.</p>
+
+<p>Fortunately we did not have to tackle this entire grammar problem. As a practical matter our development environment is only using MySQL 5.0.77 and the version of SQLite that comes with Android API 4 aka 1.6. In addition, the SQL that is communicated via replication is a subset of the entire grammar.</p>
+
+<a name="bdd_testing_robotium"></a>
+<h2 style="margin-bottom:1em">Behavior Driven Development and Testing with Robotium</h2>
+
+<p>Much of the application was developed using <a href="http://dannorth.net/introducing-bdd/">Behavior Driven Development (BDD)</a> and <a href="http://code.google.com/p/robotium/">Robotium</a>.  Android provides a testing foundation, but it's somewhat opaque to say the least.  Robotium adds higher-level operations to the Android testing framework.  With Robotium you really can do BDD with Android.  Nevertheless, Robotium presents a few challenges of its own.</p>
+
+<p>The basic capabilities that Robotium provide are:</p>
+
+<ul style="margin-left: 2em">
+<li><p>You can click things on the screen.  Short clicks or long clicks. Click on things such as specific Buttons, Views, or keys, specific items in a list, check boxes and radio buttons, specific elements of text, or even arbitrary x,y coordinates. This will enable you to navigate through your application. </p></li>
+
+<li><p>You can make assertions about which Activity is presently active.  As you navigate through the app, it's handy to be able to verify that you really are in a particular Activity.</p></li>
+
+<li><p>You can clear EditTexts and enter text into them.</p></li>
+
+<li><p>You can retrieve information about the present Activity, the collection of Listviews or Buttons or Views, etc.</p></li>
+
+<li><p>You can scroll lists and the screen.</p></li>
+
+<li><p>You can ask the test to sit and wait until something happens, such as a particular Activity becomes active or some text becomes visible.</p></li>
+</ul>
+
+<p>Robotium is a great starting point, but as mentioned earlier, you will still find challenges in applying these activities to accomplish your testing goals.</p>

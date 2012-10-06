@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+	<head>
+		<title>fyreCloud Solutions : Home</title>
+		<meta content="text/html; charset=utf-8" http-equiv="content-type" />
+		<link media="screen" type="text/css" rel="stylesheet" href="/assets/css/html5-reset-1.4.css" />
+		<link media="screen" type="text/css" rel="stylesheet" href="/assets/css/fyrecloud.css" />
+
+		<meta name="description" content="fireCloud Solutions develops innovative solutions for general business problems"/>
+		<meta name="keywords" content="fyrecloud thomas radloff android rails get laid" />
+
+	</head>
+
+	<body>
+
+		<div id="wrap">
+
+			<div id="header">
+				<img class="floatleft" src="/assets/images/fyrecloud_logo_144x111.png" alt="fyreCloud Solutions Logo" style="border: 1px solid #b06e3a; margin-right: 10px;"/>
+
+					<div>
+
+						<img src="/assets/images/fyrecloud_text_logo_328x72.png" alt="fyreCloud Solutions Text Logo"/>
+
+						<script type="text/javascript">
+							quotes = [];
+							authors = [];
+							quotes[0]   = "The first 90% of the code accounts for the first 90% of the development time. The remaining 10% of the code accounts for the other 90% of the development time.";
+							authors[0]  = "Tom Cargill";
+							quotes[1]   = "In order to understand recursion, one must first understand recursion.";
+							authors[1]  = "Author Unknown";
+							quotes[2]   = "I have always wished for my computer to be as easy to use as my telephone; my wish has come true because I can no longer figure out how to use my telephone.";
+							authors[2]  = "Bjarne Stroustrup";
+							quotes[3]   = "A computer lets you make more mistakes faster than any other invention in human history, with the possible exceptions of handguns and tequila.";
+							authors[3]  = "Mitch Ratcliffe";
+							quotes[4]  = "Don't tell the boss that his new laptop is really an Etch-a-Sketch."
+							authors[4] = "Dilbert"
+							quotes[5]   = "The gap between theory and practice is not as wide in theory as it is in practice.";
+							authors[5]  = "Author Unknown";
+							quotes[6]   = "If builders built buildings the way programmers wrote programs, then the first woodpecker that came along would destroy civilization."
+							authors[6]  = "Gerald Weinberg"
+							quotes[7]   = "If debugging is the process of removing software bugs, then programming must be the process of putting them in."
+							authors[7]  = "Edsger Dijkstra"
+							quotes[8]   = "Measuring programming process by lines of code is like measuring aircraft building progress by weight."
+							authors[8]  = "Bill Gates"
+							quotes[9]   = "Nine people can't make a baby in one month."
+							authors[9]  = "Fred Brooks"
+							quotes[10]  = "There are two major products that come out of Berkeley: LSD and Unix. we don't believe this to be a coincidence."
+							authors[10] = "Jeremy S. Anderson"
+							quotes[11]  = "Before software can be reusable it first has to be usable."
+							authors[11] = "Ralph Johnson"
+							//quotes[4]   = "There are two ways of constructing a software design: One way is to make it so simple that there are obviously no deficiencies, and the other way is to make it so complicated that there are no obvious deficiencies.  The first method is far more difficult.";
+							//authors[4]  = "C.A.R. Hoare";
+							//quotes[10]  = "Programming today is a race between software engineers striving to build bigger and better idiot-proof programs, and the Univers trying to produce bigger and better idiots.  So far, the Universe is winning."
+							//authors[10] = "Rich Cook"
+							//calculate a random index
+							index = Math.floor(Math.random() * quotes.length);
+
+							//display the quotation
+							document.write("<DL style='color: #ffffff; font-size: 75%;'>\n");
+							document.write("<DT>" + "\"" + quotes[index] + "\" -- "+authors[index]);
+							document.write("</DL>\n");
+
+						</script>
+
+				</div>
+				<div style="clear: both; height: 1px;"></div>
+			</div> <!-- header -->
+
+			<div id="avmenu">
+
+				<ul>
+					<li><span>Home</span></li>
+					<li><a href="amsler">Amsler</a></li>
+					<li><a href="andrino">Andrino</a></li>
+					<li><a href="becausewhy">BecauseWhy</a></li>
+					<li><a href="archeology">Archeology</a></li>
+					<li><a href="ckwestor">Ckwestor</a></li>
+					<li><a href="becausewhy">BecauseWhy</a></li>
+					<li><a href="bitcoins">Bitcoins</a></li>
+					<li><a href="redstar">Redstar Exchange</a></li>
+					<li><a href="contact">Contact us</a></li>
+				</ul>
+
+				<div class="announce">
+					<p><strong>Satisfied customers:</strong></p>
+					<p>It's been a pleasure working with you on [our project].  Your insight and tenacity in solving the issues we encountered, as well as your wit, was of enormous help in implementing our vision.</p>
+					<p>Thanks for all your help.  I don't know how we ever would have gotten our server running again...</p>
+					<p>I very much appreciate your patience and organized explaination of how web development works.  You've helped me cut through the fog.</p>
+
+				</div> <!-- announce -->
+
+			</div> <!-- avmenu -->
+
+			<div id="content" style="background: #0000ff;">
+
+				<h2>What is fyreCloud Solutions ?</h2>
+				<p>
+fyreCloud Solutions is in the business of solving general business problems.  More specifically this usually means 
+that we help you build software that does what you want. It is owned by Thomas Radloff.  Mr. Radloff has
+over 30 years of experience with software development.  Radloff and his team know more than just this or that tech.  Instead
+they see the big picture and understand how it all fits together.  Whatever your computing needs are, we can help you 
+analyse your choices, teach you how to implement the solutions yourself, do it for you, or any mix of all of the above.
+				</p>
+
+
+
+...
+ 				</p>
+				<h2>Why fyreCloud Solutions?</h2>
+				<p>
+				In short, I believe it's the one of the best fractal packages
+				currently available for Linux. It is:
+				<ul>
+				<li> <b>easy to use</b>, with a polished, modern UI</li>
+				<li> <b>very fast</b>, with high-performance multi-threaded rendering</li>
+				<li> <b>flexible</b>, with an unlimited number of fractal functions and vast numbers of options</li>
+				<li> <b>widely used</b>, with over <b>50,000</b> downloads to date</li>
+				</ul>
+				</p>
+				<p>
+				Tour the <a href="features.html">features</a>, 
+				<a href="screenshots.html">screenshots</a>
+				and <a href="gallery.html">galleries</a> to find out more.
+				</p>
+				<p align="center">
+				<a href="images/main_screenshot.png">
+				<img src="images/thumbnail_main_screenshot.jpg" />
+				</a>
+				</p>
+			</div> <!-- content -->
+
+			<div style="clear: both; height: 1px;"></div>
+
+			<div id="footer">
+				Hosted by: <a href="http://manage.crucialp.com/aff.php?aff=022"><img src="/assets/images/crucialp_logo.gif" alt="Crucial Paradigm Web Solutions" height="40" border="0" width="160" /></a>
+			</div> <!-- footer -->
+
+		</div> <!-- wrap -->
+
+	</body>
+
+</html>

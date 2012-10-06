@@ -1,0 +1,61 @@
+<% content_for :breadcrumbs do %>
+	<%= "Android" %>
+<% end %>
+
+<h2>Android</h2>
+<p>We have been developing for Android since API 4 aka 1.6.  Our projects include:</p>
+
+<!-- Tech Service for SME -->
+<div class="floatleft directory_listing" style="background: #fafafa">
+	<p>
+	<a href="https://play.google.com/store/apps/details?id=com.h5sw.sme">
+	<img src="assets/images/sme_main.jpg" class="floatright" style="margin-left: 10px;" />
+	</a>
+	<b>Tech Service for SME.</b> This application enables mobile service techs (think plumbers)
+	to access and update the information about the service requests that come to the home office.  The app
+	communicates with a remote server via a SOAP API to get and update this information.  It stores the information
+	on the device so that it will continue to function even in the absence of network connectivity, and
+	will write updates to the remote service as soon as connectivity is restored.
+	</p>
+	<p>You may see this in action, including a great video, at the 
+	 <a href="https://play.google.com/store/apps/details?id=com.h5sw.sme" title="Tech Service for SME in the Google Market">
+	Google Market</a>.
+	</p>
+</div>
+
+<!-- Amsler -->
+<div class="floatleft directory_listing">
+	<p>
+	<a href="amsler">
+	<img src="assets/images/amsler_main.png" width="160px"class="floatleft" style="margin-right: 10px;" />
+	</a>
+	<b>Amsler.</b> This application implements MySQL Replication between a MySQL server and the SQLite database
+	on an Android device.
+	</p>
+	<p>
+	In order to do this we had to implement the MySQL Client/Server protocol in order to communicate with
+	the server.  Communication is via TCP/IP and we used the Netty library for that.  Next, we needed to translate
+	MySQL SQL into SQLite SQL because the two are not identical.  We used ANTLR for that.
+	</p>
+	<p>Because we are using TCP/IP and keep a connection open, this enables server-push to the device.</p>
+</div>
+
+<!-- Andrino -->
+<div class="floatleft directory_listing" style="background: #fafafa">
+	<p>
+	<a href="">
+	<img src="assets/images/andrino_factorial.jpg" width="160px" class="floatright" style="margin-left: 10px;" />
+	</a>
+	<b>Andrino.</b> This application is an interactive Javascript interpreter. Johnny can't program because the kids today cannot find a simple interactive programming environment to get started with. Andrino is my attempt to address this problem. It is a great way to practice beginning programming and Javascript. Never again will your kids need to fight for nought on long road trips. Give them something worthy of conflict.
+	</p>
+</div>
+
+<!-- Center Finder -->
+<div class="floatleft directory_listing">
+	<p>
+	<a href="">
+	<img src="assets/images/center_finder_main.png" width="160px" class="floatleft" style="margin-right: 10px;" /></a>
+	<b>Center Finder.</b>  
+	This application enables the user to search for medical studies and their locations filtered by an extensive set of criteria.
+	</p>
+</div>

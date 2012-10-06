@@ -1,0 +1,34 @@
+<%
+#
+# This function will generate the html for a particular menu item, given:
+#
+# label     - The label to display
+# url       - The destination url
+# selection - The label that should be marked as "the present selection." 
+#
+def generate_menu_item (label, url, selection)
+	if(selection==label) then
+		return "<li><span>"+label+"</span></li>"
+	else
+		return "<li><a href='" + url + "'>" + label + "</a></li>"
+	end
+end
+%>
+
+<ul>
+
+	<%=
+		selected_label = @nav_menu_label
+		raw(
+			generate_menu_item("Home",             "index",       selected_label) +
+			generate_menu_item("Rails",            "rails",       selected_label) +
+			generate_menu_item("Android",          "android",     selected_label)
+			#generate_menu_item("Ckwestor",         "ckwestor",    selected_label)
+			#generate_menu_item("Bitcoins",         "bitcoins",    selected_label) +
+			#generate_menu_item("Redstar Exchange", "redstar",     selected_label) +
+			#generate_menu_item("Archaeology",      "archaeology", selected_label) +
+			#generate_menu_item("Contact us",       "contact",     selected_label)
+		)
+	%>
+
+</ul>
