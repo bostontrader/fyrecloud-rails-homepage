@@ -1,13 +1,6 @@
 require File.expand_path('../boot', __FILE__)
 
-# Remove the necessity of having a db at all.  Don't presently need one for this app.
-# See stackoverflow.com/questions/3954307/rails-3-how-do-i-avoid-database-altogether
-#require 'rails/all'
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "active_resource/railtie"
-require "rails/test_unit/railtie"
-require "sprockets/railtie"
+require 'rails/all'
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -59,9 +52,7 @@ module Railsapp
     # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
     # parameters by using an attr_accessible or attr_protected declaration.
 
-		# Remove the necessity of having a db at all.  Don't presently need one for this app.
-		# See stackoverflow.com/questions/3954307/rails-3-how-do-i-avoid-database-altogether
-    #config.active_record.whitelist_attributes = true
+    config.active_record.whitelist_attributes = true
 
     # Enable the asset pipeline
     config.assets.enabled = true

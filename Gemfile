@@ -6,7 +6,7 @@ gem 'rails', '3.2.8'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 # Remove the necessity of having a db at all.  Don't presently need one for this app.
-#gem 'sqlite3'
+gem 'sqlite3'
 
 
 # Gems used only for assets and not required
