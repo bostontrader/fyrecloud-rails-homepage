@@ -1,4 +1,21 @@
-<p><strong>Satisfied customers:</strong></p>
-<p>It's been a pleasure working with you on [our project].  Your insight and tenacity in solving the issues we encountered, as well as your bizarre sense of humor, was of enormous help in implementing our vision. -- LL</p>
-<p>Thanks for all your help.  I don't know how we ever would have gotten our server running again... -- TK</p>
-<p>I very much appreciate your patience and organized explaination of how web development works.  You've helped me cut through the fog.  -- BW</p>
+<%=
+#
+# This function will generate the html for some random customer testimonials, given:
+#
+def generate_testimonials
+
+	[
+		"<p><strong>Satisfied customers:</strong></p>",
+		"<p>It's been a pleasure working with you on [our project].  Your insight and tenacity in solving the issues we encountered, as well as your bizarre sense of humor, was of enormous help in implementing our vision. -- LL</p>",
+		"<p>Thanks for all your help.  I don't know how we ever would have gotten our server running again... -- HM</p>",
+		"<p>I very much appreciate your patience and organized explaination of how web development works.  You've helped me cut through the fog. -- BW</p>",
+		"<p>...Radloff came through with flying colors.  His suggestions re: replication were nothing short of a God send. -- TKe</p>",
+		"<p>... you rocked the last project.  All good. -- TKl</p>",
+		"<p>My development time and costs were cut in half.  Customer service was excellent with almost daily updates of results and reports.  10 stars! -- PP</p>"
+	].sample(1).join
+
+end
+
+raw( "<p><strong>A Satisfied Customer:</strong></p>" + generate_testimonials )
+
+%>
