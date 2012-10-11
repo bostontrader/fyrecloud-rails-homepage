@@ -46,6 +46,8 @@ Railsapp::Application.routes.draw do
   #     resources :products
   #   end
 
+	match 'amsler' => 'amsler#index'
+
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
   root :to => 'static#index'

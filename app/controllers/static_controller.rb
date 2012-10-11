@@ -1,8 +1,7 @@
 class StaticController < ApplicationController
 
-	def android
-		@nav_menu_label = "Amsler"
-	end
+	# We don't need these methods defined in order to actually serve a static document.
+	# We do however need them to assign the lables to the nave buttons.
 
 	def android
 		@nav_menu_label = "Android"
