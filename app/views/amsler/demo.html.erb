@@ -1,0 +1,29 @@
+<h2>Amsler Demonstration</h2>
+
+<p style="margin-bottom:1em">Once the device SQLite db is fully synchronized with the MySQL server, any updates to the server will be quickly propagated to the device.  Whenever you view or refresh this page a new record is created in the MySQL db.  If you have the synchronization log open on your Android device, you will be able to see a new entry appear shortly after creating a new MySQL record.</p>
+
+<table class="gradient-style" summary="The most recent new kitties">
+
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Birthdate</th>
+			<th>Lives Consumed</th>
+		</tr>
+	</thead>
+
+	<tbody>
+
+		<% @kitties.each do |kitty| -%>
+
+			<tr>
+				<td><%= kitty.name %></td>
+				<td><%= kitty.birthdate %></td>
+				<td><%= kitty.lives_consumed %></td>
+			</tr>
+
+		<% end -%>
+
+	</tbody>
+
+</table>

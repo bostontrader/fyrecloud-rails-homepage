@@ -221,3 +221,35 @@ font-weight: bold;
 .hide {
 display: none;
 }*/
+
+/* For the amsler kitty table */
+.gradient-style {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 1.2em;
+	#margin: 5em;
+	text-align: left;
+	border-collapse: collapse;
+}
+
+.gradient-style th {
+	font-size: 1.3em;
+	font-weight: normal;
+	padding: 0.6em;
+	background: #b9c9fe url('gradhead.png') repeat-x;
+	border-top: 2px solid #d3ddff;
+	border-bottom: 1px solid #fff;
+	color: #039;
+}
+
+.gradient-style td {
+	padding: 0.6em;
+	border-bottom: 1px solid #fff;
+	background: #e8edff url('gradback.png') repeat-x;
+	color: #669;
+	border-top: 1px solid #fff;
+}
+
+.gradient-style tbody tr:hover td {
+	background: #d0dafd url('gradhover.png') repeat-x;
+	color: #339;
+}
