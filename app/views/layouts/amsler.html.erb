@@ -39,6 +39,11 @@
 			</div> <!-- avmenu -->
 
 			<div id="content">
+				<section class="flash_messages">
+					<% flash.each do |name, msg| %>
+						<%= content_tag :div, msg, :class => "flash_#{name}" %>
+					<% end %>
+				</section>
 				<%= yield %>
 			</div> <!-- content -->
 
